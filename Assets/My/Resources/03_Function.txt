@@ -1,0 +1,14 @@
+local class = {}
+
+function main()
+    return class
+end
+
+function class.Sum(a,b)
+    return a+b
+end
+
+function class.Mul(a,b)
+    return a*b
+end
+

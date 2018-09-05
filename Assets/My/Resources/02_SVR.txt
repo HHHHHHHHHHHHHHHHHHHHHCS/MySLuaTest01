@@ -1,0 +1,14 @@
+import "UnityEngine"
+
+
+function Start(  )
+    print(Time.deltaTime)
+    local cube = GameObject.Find("Cube")
+    local pos = cube.transform.position
+    pos.x=100
+    cube.transform.position=pos
+
+
+end
+
+Start()

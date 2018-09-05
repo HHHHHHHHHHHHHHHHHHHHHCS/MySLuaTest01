@@ -1,0 +1,65 @@
+import "UnityEngine"
+
+local class = {}
+
+local radius,maxAngle=8,360
+local halfRadius=radius/2
+local s_color="_Color"
+
+local count,rotSpeed=12,30
+local parent,cubePrefab,line
+local cubeList,colorList
+local offset,angle
+
+function main()
+    class.Awake()
+    class.SpawnCube()
+    return class
+end
+
+function class.Awake()
+    parent = GameObject.Find("Plane").transform
+    cubePrefab=GameObject.Find("Plane"):GetComponent("_04_Time").cubePrefab  
+    cubeList = {}
+    colorList =  {
+        Color.cyan,Color.clear,Color.grey,Color.gray,Color.magenta,
+        Color.red,Color.yellow,Color.black,Color.white,
+        Color.green,Color.blue}
+    line = GameObject.Find("Line").transform
+end
+
+function class:Update()
+
+    self.UpdateItem()
+end
+
+function class.SpawnCube()
+    offset = 0;
+    angle = maxAngle / count
+
+    --for t in Slua.iter(parent.transform) do
+    --    GameObject.Destroy(t.gameObject)
+    --end
+    --cubeList={}
+
+    for  i = 1, count,1 do
+        local newTs = GameObject.Instantiate(cubePrefab, radius *  Vector3(Mathf.Cos(angle * i * Mathf.Deg2Rad), Mathf.Sin(angle * i * Mathf.Deg2Rad), 0)
+                , Quaternion.Euler(0, 0, Random.Range(0, 360)), parent)
+        table.insert( cubeList, newTs )
+    end
+end
+
+function class.UpdateItem()
+    offset = (offset + rotSpeed * Time.deltaTime) % maxAngle
+
+    for i,v in pairs( cubeList) do
+        v:GetComponent(MeshRenderer).material:SetColor(s_color, colorList[math.random(#colorList)])
+        local eulerAngle = v.eulerAngles
+        eulerAngle.z =eulerAngle.z+ Time.deltaTime * rotSpeed
+        v.eulerAngles = eulerAngle
+        v.position = radius *  Vector3(Mathf.Cos((offset + angle * i) * Mathf.Deg2Rad), Mathf.Sin((offset + angle * i) * Mathf.Deg2Rad), 0)
+    end
+
+    line.position=halfRadius * Vector3(Mathf.Cos(offset  * Mathf.Deg2Rad), Mathf.Sin(offset  * Mathf.Deg2Rad), 0)
+    line.eulerAngles = Vector3(0, offset, 0);
+end
