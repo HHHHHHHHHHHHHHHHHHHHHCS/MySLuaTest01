@@ -1,0 +1,7 @@
+
+print("dofile")
+
+function main()
+    print("Require main")
+    
+    end

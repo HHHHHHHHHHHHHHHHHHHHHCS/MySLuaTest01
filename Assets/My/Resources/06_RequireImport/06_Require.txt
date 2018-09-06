@@ -1,0 +1,11 @@
+
+print("require")
+
+test={1,2,3,4}
+
+local test2={2,3,4,5,6}
+
+function main()
+print("Require main")
+
+end

@@ -1,0 +1,8 @@
+food={}
+
+function food:Init(gameObject)
+    food.gameObject=gameObject
+
+end
+
+return  food

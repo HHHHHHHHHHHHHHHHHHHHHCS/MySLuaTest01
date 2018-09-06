@@ -1,0 +1,11 @@
+import "CS"
+import "UnityEngine"
+require("06_RequireImport/06_Require")
+dofile("06_RequireImport/06_DoFile")
+
+print(test[3])
+--print(test2[3]) --error
+local go = GameObject("test")
+local t =go:AddComponent(CS._06_Require)
+CS._06_Require.TestStatic()
+t:TestPrivate()
