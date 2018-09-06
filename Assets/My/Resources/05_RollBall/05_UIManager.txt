@@ -1,3 +1,7 @@
 local uiManager = {}
 
+function uiManager:Init(gameManager,prefabsData)
+    GameObject.Instantiate(prefabsData.uiPrefab)
+end
+
 return  uiManager

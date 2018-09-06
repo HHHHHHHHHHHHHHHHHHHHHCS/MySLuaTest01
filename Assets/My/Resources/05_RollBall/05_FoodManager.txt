@@ -1,10 +1,15 @@
+require("05_RollBall/05_Food")
+
 local foodManager={}
 
-local spawnCount,radius=12,4
+local spawnCount,radius,rotSpeed=12,4,45
 
 local parent
 
-function foodManager:Init(prefabsData)
+function foodManager:Init(gameManager,prefabsData)
+
+    table.insert( gameManager.updateList, self.Update)
+
     foodManager.foods={}
     parent=GameObject().transform
     parent.name="FoodParent"
@@ -12,21 +17,20 @@ function foodManager:Init(prefabsData)
 
     for i=1,spawnCount do
 
-        local newFoodGO = GameObject.Instantiate(prefabsData.foodPrefab,parent).transform
-        local pos = newFood.position
+        local newFoodTs = GameObject.Instantiate(prefabsData.foodPrefab,parent).transform
+        local pos = newFoodTs.position
         pos.x=radius* math.cos(math.rad(i*angle))
         pos.z=radius* math.sin(math.rad(i*angle))
-        newFood.position=pos
+        newFoodTs.position=pos
 
-        local newFood = dofile()
+        local newFood = food:New(newFoodTs)
         table.insert(foodManager.foods, newFood)
     end
-
 end
 
 function foodManager:Update()
-    for _,v in pairs(foodManager.foods) do
-
+    for k,v in pairs(foodManager.foods) do
+        v:Rot(rotSpeed)
     end
 end
 

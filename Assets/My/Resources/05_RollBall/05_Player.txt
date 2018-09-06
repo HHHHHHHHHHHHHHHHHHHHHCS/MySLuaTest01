@@ -1,9 +1,20 @@
 local player = {}
 
-function player:Init(prefabsData)
+local rigi
+local speed = 3
+
+function player:Init(gameManager,prefabsData)
+    table.insert( gameManager.updateList, self.Update)
     player.go= GameObject.Instantiate(prefabsData.playerPrefab)
+    rigi=player.go:GetComponent(Rigidbody)
 end
 
-
+function player:Update()
+    local hor =Input.GetAxis("Horizontal");
+    local ver =Input.GetAxis("Vertical");
+    if hor~=0 or ver~=0 then
+        rigi:AddForce(Vector3(hor, 0, ver) * speed)
+    end
+end
 
 return player

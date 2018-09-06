@@ -1,29 +1,31 @@
 import "UnityEngine"
 
-local class = {}
+local gameManager = {}
 local prefabsData
 local uiManager,foodManager,player
 
 
 function main()
-
     Init()
-    return class
+    return gameManager
 end
 
-function class.Awake()
-
-end
-
-function class.Start()
+function gameManager.Awake()
 
 end
 
-function class.Update()
+function gameManager.Start()
 
+end
+
+function gameManager.Update()
+    for _,v in pairs(gameManager.updateList) do
+        v()
+    end
 end
 
 function Init()
+    gameManager.updateList={}
     prefabsData=GameObject.Find("PrefabsData"):GetComponent("_05_Prefabs")
 
     GameObject.Instantiate(prefabsData.worldPrefab,parent)
@@ -32,7 +34,8 @@ function Init()
     foodManager=dofile('05_RollBall/05_FoodManager')
     player=dofile('05_RollBall/05_Player')
 
-    player:Init(prefabsData)
-    foodManager:Init(prefabsData)
+    player:Init(gameManager,prefabsData)
+    foodManager:Init(gameManager,prefabsData)
+    uiManager:Init(gameManager,prefabsData)
 end
 

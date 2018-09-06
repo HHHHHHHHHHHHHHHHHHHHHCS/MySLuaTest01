@@ -1,8 +1,15 @@
 food={}
 
-function food:Init(gameObject)
-    food.gameObject=gameObject
-
+function food:New(transform)
+    temp={}
+    setmetatable(temp, self)
+    self.__index=self
+    temp.transform=transform
+    return temp
 end
 
-return  food
+function food:Rot(rotSpeed)
+    local angle = self.transform.eulerAngles
+    angle.y=angle.y+Time.deltaTime*rotSpeed
+    self.transform.eulerAngles=angle
+end

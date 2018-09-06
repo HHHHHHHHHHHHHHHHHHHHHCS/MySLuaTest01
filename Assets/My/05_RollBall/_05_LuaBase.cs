@@ -30,7 +30,6 @@ public class _05_LuaBase : MonoBehaviour
 
     private void Update()
     {
-        return;
         if(update!=null)
         {
             update();
@@ -39,6 +38,11 @@ public class _05_LuaBase : MonoBehaviour
         {
             Debug.Log("update is null");
         }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        //加分 摧毁Food
     }
 
 }
