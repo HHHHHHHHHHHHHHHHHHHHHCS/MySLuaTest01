@@ -1,0 +1,9 @@
+local player = {}
+
+function player:Init(prefabsData)
+    player.go= GameObject.Instantiate(prefabsData.playerPrefab)
+end
+
+
+
+return player

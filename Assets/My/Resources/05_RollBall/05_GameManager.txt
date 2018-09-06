@@ -1,0 +1,38 @@
+import "UnityEngine"
+
+local class = {}
+local prefabsData
+local uiManager,foodManager,player
+
+
+function main()
+
+    Init()
+    return class
+end
+
+function class.Awake()
+
+end
+
+function class.Start()
+
+end
+
+function class.Update()
+
+end
+
+function Init()
+    prefabsData=GameObject.Find("PrefabsData"):GetComponent("_05_Prefabs")
+
+    GameObject.Instantiate(prefabsData.worldPrefab,parent)
+
+    uiManager=dofile('05_RollBall/05_UIManager')
+    foodManager=dofile('05_RollBall/05_FoodManager')
+    player=dofile('05_RollBall/05_Player')
+
+    player:Init(prefabsData)
+    foodManager:Init(prefabsData)
+end
+

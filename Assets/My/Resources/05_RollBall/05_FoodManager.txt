@@ -1,0 +1,26 @@
+local foodManager={}
+
+local spawnCount,radius=12,4
+
+local parent
+
+function foodManager:Init(prefabsData)
+    foodManager.foods={}
+    parent=GameObject().transform
+    parent.name="FoodParent"
+    local angle = 360/spawnCount
+
+    for i=1,spawnCount do
+        local newFood = GameObject.Instantiate(prefabsData.foodPrefab,parent).transform
+        local pos = newFood.position
+        pos.x=radius* math.cos(math.rad(i*angle))
+        pos.z=radius* math.sin(math.rad(i*angle))
+        newFood.position=pos
+        table.insert( foodManager.foods, newFood)
+    end
+
+end
+
+return foodManager
+
+
