@@ -6,6 +6,7 @@ namespace SLua {
 		public static Action<IntPtr>[] GetBindList() {
 			Action<IntPtr>[] list= {
 				Lua__05_LuaBase.reg,
+				Lua__05_LuaMono.reg,
 				Lua_CS__06_Require.reg,
 				Lua_Custom.reg,
 				Lua_Custom_IFoo.reg,

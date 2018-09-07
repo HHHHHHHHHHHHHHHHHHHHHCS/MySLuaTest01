@@ -1,41 +1,48 @@
 import "UnityEngine"
 
 local gameManager = {}
-local prefabsData
-local uiManager,foodManager,player
 
+local addScore=10
 
 function main()
-    Init()
+    gameManager:InitCompoent()
+    gameManager:InitData()
+    gameManager:InitView()
     return gameManager
 end
 
-function gameManager.Awake()
+function gameManager:InitCompoent()
+    self.updateList={}
+    self.prefabsData=GameObject.Find("PrefabsData"):GetComponent("_05_Prefabs")
 
+    self.uiManager=dofile('05_RollBall/05_UIManager')
+    self.foodManager=dofile('05_RollBall/05_FoodManager')
+    self.player=dofile('05_RollBall/05_Player')
+
+    self.player:Init(self)
+    self.foodManager:Init(self)
+    self.uiManager:Init(self)
 end
 
-function gameManager.Start()
-
+function gameManager:InitData()
+    self.nowScore=0
+    self.remainFood=#self.foodManager.foods
 end
 
-function gameManager.Update()
-    for _,v in pairs(gameManager.updateList) do
+function gameManager:InitView()
+    GameObject.Instantiate(self.prefabsData.worldPrefab)
+    self.uiManager:UpdateView(self.nowScore,self.remainFood)
+end
+
+function gameManager:Update()
+    for _,v in pairs(self.updateList) do
         v()
     end
 end
 
-function Init()
-    gameManager.updateList={}
-    prefabsData=GameObject.Find("PrefabsData"):GetComponent("_05_Prefabs")
-
-    GameObject.Instantiate(prefabsData.worldPrefab,parent)
-
-    uiManager=dofile('05_RollBall/05_UIManager')
-    foodManager=dofile('05_RollBall/05_FoodManager')
-    player=dofile('05_RollBall/05_Player')
-
-    player:Init(gameManager,prefabsData)
-    foodManager:Init(gameManager,prefabsData)
-    uiManager:Init(gameManager,prefabsData)
+function gameManager:AddScore(food)
+    self.foodManager:KillFood(food)
+    self.nowScore=self.nowScore + addScore
+    self.remainFood=#self.foodManager.foods
+    self.uiManager:UpdateView(self.nowScore,self.remainFood)
 end
-

@@ -1,7 +1,15 @@
 local uiManager = {}
 
-function uiManager:Init(gameManager,prefabsData)
-    GameObject.Instantiate(prefabsData.uiPrefab)
+function uiManager:Init(_gameManager)
+    local uiRoot =GameObject.Instantiate(_gameManager.prefabsData.uiPrefab).transform
+
+    self.nowScoreText=uiRoot:Find("NowScoreBg/NowScoreText"):GetComponent(UI.Text)
+    self.remainFoodText=uiRoot:Find("RemainFoodBg/RemainFoodText"):GetComponent(UI.Text)
+end
+
+function uiManager:UpdateView(score,remainCount)
+    self.nowScoreText.text=score
+    self.remainFoodText.text=remainCount
 end
 
 return  uiManager

@@ -11,7 +11,8 @@ public class _05_LuaBase : MonoBehaviour
     private string luaPath;
 
     private LuaTable table;
-    private Action update;
+
+    private Action<object> update;
 
     private void Awake()
     {
@@ -24,7 +25,7 @@ public class _05_LuaBase : MonoBehaviour
         luaSvr.init(null, () =>
          {
              table = (LuaTable)luaSvr.start(luaPath);
-             update = ((LuaFunction)table["Update"]).cast<Action>();
+             update = ((LuaFunction)table["Update"]).cast<Action<object>>();
          });
     }
 
@@ -32,17 +33,11 @@ public class _05_LuaBase : MonoBehaviour
     {
         if(update!=null)
         {
-            update();
+            update(table);
         }
         else
         {
             Debug.Log("update is null");
         }
     }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        //加分 摧毁Food
-    }
-
 }
